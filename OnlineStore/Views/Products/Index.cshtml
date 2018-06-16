@@ -1,0 +1,55 @@
+﻿@model IEnumerable<OnlineStore.Models.Product.Product>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2 style="color:#e2d3aa">Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create", new { id = 1 }, new { @style = "color:#e2d3aa;" })
+</p>
+<table class="table">
+    <tr>
+        <th style="color:#e2d3aa">
+            @Html.DisplayNameFor(model => model.ImgURL)
+        </th>
+        <th style="color:#e2d3aa">
+            @Html.DisplayNameFor(model => model.Quantity)
+        </th>
+        <th style="color:#e2d3aa">
+            @Html.DisplayNameFor(model => model.Price)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr style="background-color:#e2d3aa">
+            <td  style="max-width:300px">
+                <div class="col-md-4 text-center">
+                    <div class="thumbnail">
+                        <img class="img-responsive" src="@item.ImgURL">
+                        <div class="caption">
+                            <h3>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+            </td>
+                <td style="color:white">
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td style="color:white">
+                @Html.DisplayFor(modelItem => item.Quantity)
+            </td>
+            <td style="color:white">
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id}, new { @style = "color:white;" }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }, new { @style = "color:white;" }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @style = "color:white;" })
+            </td>
+        </tr>
+    }
+
+</table>
