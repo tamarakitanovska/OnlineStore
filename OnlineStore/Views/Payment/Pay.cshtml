@@ -8,7 +8,7 @@
 <div>
     <span>Enter your bitcoin address to proceed</span>
     @Html.LabelFor(m => m.UserAddress);
-    @Html.TextBoxFor(m => m.UserAddress);
+    @Html.TextBoxFor(m => m.UserAddress,new { @class="form-control"});
 </div>
 
 <div>
