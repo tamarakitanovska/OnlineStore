@@ -7,13 +7,15 @@ namespace OnlineStore.Models
 {
     public class UserBitcoinAdress
     {
-        public int UserId { get; set; }
+        public String UserId { get; set; }
         public String UserAddress { get; set; }
 
-        public UserBitcoinAdress(int userId, string userAddress)
+        public String ShoppingCartId { get; set; }
+
+        public UserBitcoinAdress(ShoppingCart shopping)
         {
-            UserId = userId;
-            UserAddress = userAddress;
+            this.ShoppingCartId = shopping.ID;
+            UserId = shopping.UserID;
         }
 
         public UserBitcoinAdress()

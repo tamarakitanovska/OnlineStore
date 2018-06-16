@@ -15,14 +15,16 @@ namespace OnlineStore.Controllers
 
     public class PaymentController : Controller
     {
-        
+        private ApplicationDbContext db = new ApplicationDbContext();
+
         private static MyWallet myWallet = new MyWallet("32ed97a8-9782-4cca-b50b-ad3e2917143e","23081997aab");
         private static HttpClient client = new HttpClient();
         private static String baseURL = "http://127.0.0.1:3000/";
         private static String ControllerNameForPay="merchant/";
         private static String BaseWebAddressSimpleApi = "https://blockchain.info/q/";
         private static HttpClient clientSimpleApi = new HttpClient();
-
+        private static HttpClient ClientForPriceConvert = new HttpClient();
+        private static String URLforPriceConverting = "https://blockchain.info/tobtc?";
 
         static async Task RunAsync()
         {
@@ -83,10 +85,27 @@ namespace OnlineStore.Controllers
 
         // 
 
-        public async Task<ActionResult> Pay()
+        public async Task<ActionResult> Pay(int cartID)
         {
+            //Saving the info for the user who request payment and his cart
+            ShoppingCart shoppingCart=db.ShoppingCarts.Find(cartID);
+            
             await RunAsync();
-            return View();
+            return View(new UserBitcoinAdress(shoppingCart));
+        }
+
+        public async Task<Double> PriceOfBitcoin(double ammount,String currency)
+        {
+            //sending http request using ClinetForPriceConvert client and 
+            //receiving httpResponseMessage
+            HttpResponseMessage httpResponseMessage = await ClientForPriceConvert.GetAsync(URLforPriceConverting + "currency=" + 
+                currency + "&value=" + ammount.ToString()).ConfigureAwait(false);
+            if(httpResponseMessage.IsSuccessStatusCode)
+            {
+                return Convert.ToDouble(httpResponseMessage.Content.ReadAsStringAsync());
+            }
+            return -1;
+           
         }
 
         private AddressForCustumer getNewAddressFromApi(UserBitcoinAdress model)
@@ -110,11 +129,21 @@ namespace OnlineStore.Controllers
         {
             //Generiranje na nova adresa za sekoj nov korisnik
             AddressForCustumer newAddress = getNewAddressFromApi(model);
+            //model for all information needed for payment
             ReceivingPaymentForUser receivingPaymentForUser = new ReceivingPaymentForUser();
+            //the generated address for the specific user
             receivingPaymentForUser.AddressForReceiving = newAddress.NewAddress;
+            //the label used when generating address
             receivingPaymentForUser.Label = newAddress.Label;
+            //the bitcoin address of the specific usre
             receivingPaymentForUser.UserAddress = model.UserAddress;
+            //the id of the specific user
             receivingPaymentForUser.UserId = model.UserId;
+            ShoppingCart shoppingCart = db.ShoppingCarts.Find(model.ShoppingCartId);
+            //the shopping cart id and the ammount to be paid
+            receivingPaymentForUser.ShoppingCartId = shoppingCart.ID;
+            receivingPaymentForUser.ammountToBePaid = shoppingCart.toBePaid();
+            receivingPaymentForUser.ammountToBePaidBitcoin = PriceOfBitcoin(receivingPaymentForUser.ammountToBePaid, "USD").Result;
             return View(receivingPaymentForUser);
         }
 

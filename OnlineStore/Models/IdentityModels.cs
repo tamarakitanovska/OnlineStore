@@ -31,5 +31,7 @@ namespace OnlineStore.Models
         }
 
         public System.Data.Entity.DbSet<OnlineStore.Models.Product.Product> Products { get; set; }
+
+        public System.Data.Entity.DbSet<OnlineStore.Models.ShoppingCart> ShoppingCarts { get; set; }
     }
 }

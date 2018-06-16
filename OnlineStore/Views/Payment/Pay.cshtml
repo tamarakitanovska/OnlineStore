@@ -9,15 +9,9 @@
     <span>Enter your bitcoin address to proceed</span>
     @Html.LabelFor(m => m.UserAddress);
     @Html.TextBoxFor(m => m.UserAddress,new { @class="form-control"});
-</div>
 
-<div>
-    <span>Enter your ID</span>
-    @Html.LabelFor(m => m.UserId);
-    @Html.TextBoxFor(m => m.UserId);
-</div>
-
-<div>
+    @Html.HiddenFor(m => m.ShoppingCartId);
+    @Html.HiddenFor(m => m.UserId);
     <button id="btn-continue" "submit" class="btn-group">Continue</button>
 </div>
 }
