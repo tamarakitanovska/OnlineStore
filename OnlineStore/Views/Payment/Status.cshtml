@@ -1,0 +1,34 @@
+﻿@model OnlineStore.Models.StatusOfTransaction
+@{
+    ViewBag.Title = "Status";
+}
+
+<div class="form-group">
+    @{
+        if (Model.BitcoinsSent)
+        {
+            <span>The status of your transaction</span>
+            @Html.DisplayNameFor(m => m.BlockConfirmations)
+            <br />
+            @Html.DisplayTextFor(m => m.BlockConfirmations)
+            if(Model.BlockConfirmations==3)
+            {
+                <br />
+                <span>Your payment is confirmed the products will be shiped as soon as pissible</span>
+            }
+        }
+        else
+        {
+            <br />
+            <span>There are not any bitcoins sent</span>
+            <br />
+            <span>Please sent the requested amount to the folowing addres to complete the payment</span>
+            <br />
+            @Html.DisplayNameFor(m => m.AddressForPayment)
+            <br />
+            @Html.DisplayTextFor(m => m.AddressForPayment)
+        }
+    }
+
+</div>
+

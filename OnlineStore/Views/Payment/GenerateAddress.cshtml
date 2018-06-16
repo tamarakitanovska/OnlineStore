@@ -1,0 +1,28 @@
+﻿@model OnlineStore.Models.ReceivingPaymentForUser
+
+@{
+    ViewBag.Title = "GenerateAddress";
+}
+
+<div class="form-group">
+    <span>Your bitcoin address</span>
+    <br />
+    @Html.DisplayNameFor(m=>m.UserAddress)
+    @Html.DisplayTextFor(m=>m.AddressForReceiving)
+</div>
+
+<div class="form-group">
+    <span>Send bitcoin to this address:</span>
+    <br />
+    @Html.DisplayNameFor(m => m.AddressForReceiving)
+    <br />
+    <span>After 3 block confirmations (aproximetly 30 minutes) your order will be shipped</span>
+</div>
+
+
+<div class="form-control" >
+    <span>You can check the status of your transaction here</span>
+    <br />
+    
+    @Html.ActionLink("Status","Status", new { address=Model.AddressForReceiving})
+</div>
