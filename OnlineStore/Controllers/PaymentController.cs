@@ -15,6 +15,7 @@ namespace OnlineStore.Controllers
 
     public class PaymentController : Controller
     {
+        
         private static MyWallet myWallet = new MyWallet("32ed97a8-9782-4cca-b50b-ad3e2917143e","23081997aab");
         private static HttpClient client = new HttpClient();
         private static String baseURL = "http://127.0.0.1:3000/";
@@ -49,28 +50,34 @@ namespace OnlineStore.Controllers
             return addressForCustumer;
         }
 
+        /// <summary>
+        /// Get ballance of an address wiht the number of confirmations
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
         static async Task<BallanceOfAddress> GetBalanceOfAddressWithConfirmations(String path)
         {
             //prakjanje na http baranje i prevzimanje na podatoci vo vrska so saldoto na konkretnata adresa
-            BallanceOfAddress ballanceOfAddress = new BallanceOfAddress();
+            BallanceOfAddress ballance = new BallanceOfAddress();
             HttpResponseMessage httpResponseMessage = await clientSimpleApi.GetAsync(path).ConfigureAwait(false);
             if (httpResponseMessage.IsSuccessStatusCode)
             {
-                ballanceOfAddress.Balance= Convert.ToInt32(await httpResponseMessage.Content.ReadAsStringAsync());
+                ballance.Balance= Convert.ToInt32(await httpResponseMessage.Content.ReadAsStringAsync());
             }
-            return ballanceOfAddress;
+            return ballance;
         }
 
+        
         static async Task<BallanceOfAddress> GetBalanceOfAddress(String path)
         {
             //prakjanje na http baranje i prevzimanje na podatoci vo vrska so saldoto na konkretnata adresa
-            BallanceOfAddress ballanceOfAddress = null;
+            BallanceOfAddress ballance = null;
             HttpResponseMessage httpResponseMessage = await client.GetAsync(ControllerNameForPay + path).ConfigureAwait(false);
             if(httpResponseMessage.IsSuccessStatusCode)
             {
-                ballanceOfAddress =await httpResponseMessage.Content.ReadAsAsync<BallanceOfAddress>();
+                ballance =await httpResponseMessage.Content.ReadAsAsync<BallanceOfAddress>();
             }
-            return ballanceOfAddress;
+            return ballance;
         }
 
 
@@ -91,6 +98,13 @@ namespace OnlineStore.Controllers
             
         }
         
+
+        /// <summary>
+        /// Generate new address for receiving bitcoin for every
+        /// new custumer
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult GenerateAddress(UserBitcoinAdress model)
         {
@@ -110,6 +124,11 @@ namespace OnlineStore.Controllers
             return GetBalanceOfAddress(path).Result;
         }
         
+        /// <summary>
+        /// Geting the number of confirmations
+        /// </summary>
+        /// <param name="address"></param>
+        /// <returns></returns>
         public ActionResult Status(String address)
         {
             //Proverka na statusot na transakcijata 
