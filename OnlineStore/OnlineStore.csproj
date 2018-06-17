@@ -215,8 +215,13 @@
     <Compile Include="Migrations\201806161406532_Products.Designer.cs">
       <DependentUpon>201806161406532_Products.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201806170035145_ShoppingCart.cs" />
+    <Compile Include="Migrations\201806170035145_ShoppingCart.Designer.cs">
+      <DependentUpon>201806170035145_ShoppingCart.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\AddToRoleModel.cs" />
     <Compile Include="Models\Payment\BallanceOfAddress.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -299,6 +304,7 @@
     <Content Include="Views\Products\Index.cshtml" />
     <Content Include="Views\ShoppingCarts\Details.cshtml" />
     <Content Include="Views\ShoppingCarts\Index.cshtml" />
+    <Content Include="Views\Account\AddUserToRole.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -322,6 +328,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201806161406532_Products.resx">
       <DependentUpon>201806161406532_Products.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806170035145_ShoppingCart.resx">
+      <DependentUpon>201806170035145_ShoppingCart.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

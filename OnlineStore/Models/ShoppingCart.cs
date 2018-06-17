@@ -12,7 +12,7 @@ namespace OnlineStore.Models
         //Whoose shoping cart it is
 
         [Key]
-        public String ID { get; set; }
+        public int ID { get; set; }
         public String UserID { get; set; }
 
         public List<Product.Product> ChoosedProducts { get; set; }

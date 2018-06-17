@@ -10,7 +10,7 @@ namespace OnlineStore.Models
         public String UserId { get; set; }
         public String UserAddress { get; set; }
 
-        public String ShoppingCartId { get; set; }
+        public int ShoppingCartId { get; set; }
 
         public UserBitcoinAdress(ShoppingCart shopping)
         {

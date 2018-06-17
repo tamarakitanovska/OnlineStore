@@ -52,6 +52,26 @@ namespace OnlineStore.Controllers
             }
         }
 
+        //GET
+        public ActionResult AddUserToRole()
+        {
+            var model = new AddToRoleModel();
+            model.Roles.Add("Admin");
+            model.Roles.Add("Editor");
+            model.Roles.Add("User");
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult AddUserToRole(AddToRoleModel model)
+        {
+            var user = UserManager.FindByEmail(model.Email);
+            UserManager.AddToRole(user.Id, model.SelectedRole);
+
+            return RedirectToAction("Index", "Products");
+        }
+
+
         //
         // GET: /Account/Login
         [AllowAnonymous]

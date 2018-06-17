@@ -14,7 +14,7 @@ namespace OnlineStore.Models
         public String Label { get; set; }
 
         public String UserAddress { get; set; }
-        public String ShoppingCartId { get; set; }
+        public int ShoppingCartId { get; set; }
 
         //in dollars
         public double ammountToBePaid { get; set; }
