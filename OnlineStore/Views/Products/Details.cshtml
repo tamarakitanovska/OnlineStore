@@ -9,42 +9,35 @@
 <div>
     <h4>Product</h4>
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Price)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Price)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Quantity)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Quantity)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ImgURL)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ImgURL)
-        </dd>
-
-    </dl>
-</div>
+    </div>
+<table>
+    <tr>
+        <td>
+            <img class="img-responsive" src="@Model.ImgURL" style="max-width:400px;">
+        </td>
+        <td>
+            <h3 style="margin-bottom:50px;color:#a29a9a;">
+                @Html.DisplayNameFor(model => model.Name) - 
+                @Html.DisplayFor(model => model.Name)
+            </h3>
+            <h4 style="color:#7a7575;">
+                @Html.DisplayNameFor(model => model.Price) - 
+                @Html.DisplayFor(model => model.Price)$
+            </h4>
+            <h4 style="color:#7a7575;">
+                @Html.DisplayNameFor(model => model.Quantity) - 
+                @Html.DisplayFor(model => model.Quantity) in stock
+            </h4>
+            </td>
+        <td>
+           <button class="btn btn-default btn-block"style="margin-left:100px;margin-bottom:200px;color:#7a7575;"><span class="glyphicon glyphicon-shopping-cart" style="color:blue;"></span>Add to cart</button>
+        </td>
+        </tr>
+    </table>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+    @Html.ActionLink("Edit", "Edit", new { id = 1 }, new { @style = "color:#7a7575;" }) |
+    @Html.ActionLink("Back to List", "Index", new { id = 1 }, new { @style = "color:#7a7575;;" })
+
+ 
+    
