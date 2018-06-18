@@ -8,7 +8,7 @@
     <span>Your bitcoin address</span>
     <br />
     @Html.DisplayNameFor(m=>m.UserAddress)
-    @Html.DisplayTextFor(m=>m.AddressForReceiving)
+    @Html.DisplayTextFor(m=>m.UserAddress)
 </div>
 
 <div class="form-group">
@@ -16,6 +16,7 @@
     <br />
     <span></span>
     @Html.DisplayNameFor(m => m.AddressForReceiving)
+    @Html.DisplayTextFor(m=>m.AddressForReceiving)
     <br />
     <span>After 3 block confirmations (aproximately 30 minutes) your order will be shipped</span>
 </div>
@@ -25,5 +26,5 @@
     <span>You can check the status of your transaction here</span>
     <br />
     
-    @Html.ActionLink("Status","Status", new { address=Model.AddressForReceiving})
+    @Html.ActionLink("StatusAsync", "StatusAsync", new { address=Model.AddressForReceiving})
 </div>

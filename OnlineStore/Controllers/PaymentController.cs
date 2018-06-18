@@ -18,8 +18,9 @@ namespace OnlineStore.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         private static MyWallet myWallet = new MyWallet("32ed97a8-9782-4cca-b50b-ad3e2917143e","23081997aab");
-        private static HttpClient client = new HttpClient();
+        private static HttpClient client = new HttpClient();        
         private static String baseURL = "http://127.0.0.1:3000/";
+        
         private static String ControllerNameForPay="merchant/";
         private static String BaseWebAddressSimpleApi = "https://blockchain.info/q/";
         private static HttpClient clientSimpleApi = new HttpClient();
@@ -28,7 +29,8 @@ namespace OnlineStore.Controllers
 
         static async Task RunAsync()
         {
-            client.BaseAddress=new Uri(baseURL);
+            if(client.BaseAddress==null)
+                client.BaseAddress = new Uri(baseURL);
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(
                 new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
@@ -38,7 +40,7 @@ namespace OnlineStore.Controllers
                 new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-        static async Task<AddressForCustumer> GetNewAddress(String path)
+        static async Task<AddressForCustumer> GetNewAddressAsync(String path)
         {
             AddressForCustumer addressForCustumer = null;
 
@@ -85,10 +87,10 @@ namespace OnlineStore.Controllers
 
         // 
 
-        public async Task<ActionResult> Pay(int cartID)
+        public async Task<ActionResult> Pay(int ID)
         {
             //Saving the info for the user who request payment and his cart
-            ShoppingCart shoppingCart=db.ShoppingCarts.Find(cartID);
+            ShoppingCart shoppingCart=db.ShoppingCarts.Find(ID);
             
             await RunAsync();
             return View(new UserBitcoinAdress(shoppingCart));
@@ -102,17 +104,18 @@ namespace OnlineStore.Controllers
                 currency + "&value=" + ammount.ToString()).ConfigureAwait(false);
             if(httpResponseMessage.IsSuccessStatusCode)
             {
-                return Convert.ToDouble(httpResponseMessage.Content.ReadAsStringAsync());
+                return Convert.ToDouble(httpResponseMessage.Content.ReadAsStringAsync().Result);
             }
             return -1;
            
         }
 
-        private AddressForCustumer getNewAddressFromApi(UserBitcoinAdress model)
+        private async Task<AddressForCustumer> getNewAddressFromApiAsync(UserBitcoinAdress model)
         {
             String path = myWallet.ID + "/new_address?password=" + myWallet.Password + "&label=" + model.UserId;
             //needs validation
-            AddressForCustumer address = GetNewAddress(path).Result;
+            
+            AddressForCustumer address = await GetNewAddressAsync(path);
             return address;
             
         }
@@ -125,10 +128,10 @@ namespace OnlineStore.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult GenerateAddress(UserBitcoinAdress model)
+        public async Task<ActionResult> GenerateAddressAsync(UserBitcoinAdress model)
         {
             //Generiranje na nova adresa za sekoj nov korisnik
-            AddressForCustumer newAddress = getNewAddressFromApi(model);
+            AddressForCustumer newAddress =await getNewAddressFromApiAsync(model);
             //model for all information needed for payment
             ReceivingPaymentForUser receivingPaymentForUser = new ReceivingPaymentForUser();
             //the generated address for the specific user
@@ -158,7 +161,7 @@ namespace OnlineStore.Controllers
         /// </summary>
         /// <param name="address"></param>
         /// <returns></returns>
-        public ActionResult Status(String address)
+        public async Task<ActionResult> StatusAsync(String address)
         {
             //Proverka na statusot na transakcijata 
             //go proveruvame saldoto za ovaa adresa
@@ -166,7 +169,7 @@ namespace OnlineStore.Controllers
             statusOfTransaction.AddressForPayment = address;
             //saldo so 0 potvrdi
             String path = "addressbalance/" + address + "?confirmations=0";
-            BallanceOfAddress ballance = GetBalanceOfAddressWithConfirmations(path).Result;
+            BallanceOfAddress ballance = await GetBalanceOfAddressWithConfirmations(path);
             if (ballance.getBalanceAsEuro() == 0)
             {
                 statusOfTransaction.Balance = ballance;
@@ -176,7 +179,7 @@ namespace OnlineStore.Controllers
             }
             //saldo so 1 potvrda
             path = "addressbalance/" + address + "?confirmations=1";
-            ballance = GetBalanceOfAddressWithConfirmations(path).Result;
+            ballance = await GetBalanceOfAddressWithConfirmations(path);
             if (ballance.getBalanceAsEuro() == 0)
             {
                 statusOfTransaction.Balance = ballance;
@@ -186,7 +189,7 @@ namespace OnlineStore.Controllers
             }
             //saldo so 2 potvrdi
             path = "addressbalance/" + address + "?confirmations=2";
-            ballance = GetBalanceOfAddressWithConfirmations(path).Result;
+            ballance = await GetBalanceOfAddressWithConfirmations(path);
             if (ballance.getBalanceAsEuro() == 0)
             {
                 statusOfTransaction.Balance = ballance;
@@ -196,7 +199,7 @@ namespace OnlineStore.Controllers
             }
             //saldo so 3 potvrdi
             path = "addressbalance/" + address + "?confirmations=3";
-            ballance = GetBalanceOfAddressWithConfirmations(path).Result;
+            ballance = await GetBalanceOfAddressWithConfirmations(path);
             if (ballance.getBalanceAsEuro() == 0)
             {
                 statusOfTransaction.Balance = ballance;

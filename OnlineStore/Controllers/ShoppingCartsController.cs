@@ -21,20 +21,34 @@ namespace OnlineStore.Controllers
             return View(db.ShoppingCarts.ToList());
         }
 
-
-        //OK
-        // GET: ShoppingCarts/Details/5
-        public ActionResult Details(int? id)
+        [HttpPost]
+        public ActionResult PostProductToCart(int Id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            ShoppingCart shoppingCart = db.ShoppingCarts.Find(id);
+            String UserId = db.Users.ToList().Find(x => x.UserName == HttpContext.User.Identity.Name).Id;
+            ShoppingCart shoppingCart = db.ShoppingCarts.FirstOrDefault(x => x.UserID == UserId);
             if (shoppingCart == null)
             {
-                ShoppingCart shoppingCartNew = new ShoppingCart();
-                shoppingCartNew.UserID = HttpContext.User.Identity.Name;
+                shoppingCart = new ShoppingCart();
+                shoppingCart.UserID = UserId;
+                db.ShoppingCarts.Add(shoppingCart);
+                db.SaveChanges();
+            }
+
+            shoppingCart.ChoosedProducts.Add(db.Products.Find(Id));
+            
+            db.SaveChanges();
+            return RedirectToAction("Details", "Products", new { Id = Id });
+        }
+       
+        // GET: ShoppingCarts/Details/5
+        public ActionResult Details()
+        {
+            String UserId = db.Users.ToList().Find(x=>x.UserName==HttpContext.User.Identity.Name).Id;
+            ShoppingCart shoppingCart = db.ShoppingCarts.ToList().Find(x => x.UserID == UserId);
+            if (shoppingCart == null)
+            {
+                shoppingCart = new ShoppingCart();
+                shoppingCart.UserID = UserId;
             }
             //model generating html for shoping cart
             ModelForShoppingCartDetails model = new ModelForShoppingCartDetails();

@@ -9,8 +9,8 @@
 <div>
     <h4>Product</h4>
     <hr />
-
-    </div>
+</div>
+@Html.BeginForm("PostProductToCart", "ShoppingCarts", new { Id = Model.Id }){
 <table>
     <tr>
         <td>
@@ -18,26 +18,31 @@
         </td>
         <td>
             <h3 style="margin-bottom:50px;color:#a29a9a;">
-                @Html.DisplayNameFor(model => model.Name) - 
+                @Html.DisplayNameFor(model => model.Name) -
                 @Html.DisplayFor(model => model.Name)
             </h3>
             <h4 style="color:#7a7575;">
-                @Html.DisplayNameFor(model => model.Price) - 
+                @Html.DisplayNameFor(model => model.Price) -
                 @Html.DisplayFor(model => model.Price)$
             </h4>
             <h4 style="color:#7a7575;">
-                @Html.DisplayNameFor(model => model.Quantity) - 
+                @Html.DisplayNameFor(model => model.Quantity) -
                 @Html.DisplayFor(model => model.Quantity) in stock
             </h4>
-            </td>
-        <td>
-           <button class="btn btn-default btn-block"style="margin-left:100px;margin-bottom:200px;color:#7a7575;"><span class="glyphicon glyphicon-shopping-cart" style="color:blue;"></span>Add to cart</button>
         </td>
-        </tr>
-    </table>
+        <td>
+
+            <button id="btn-add" prduct-id="@Model.Id" class="btn btn-default btn-block" style="margin-left:100px;margin-bottom:200px;color:#7a7575;">
+                <span class="glyphicon glyphicon-shopping-cart" style="color:blue;"></span>Add to cart
+            </button>
+            
+        </td>
+    </tr>
+</table>
+}
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = 1 }, new { @style = "color:#7a7575;" }) |
     @Html.ActionLink("Back to List", "Index", new { id = 1 }, new { @style = "color:#7a7575;;" })
+</p>
 
- 
-    
+

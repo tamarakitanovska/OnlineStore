@@ -3,16 +3,16 @@
     ViewBag.Title = "Pay";
 }
 
-@Html.BeginForm("GenerateAddress", "Payment")
+@Html.BeginForm("GenerateAddressAsync", "Payment")
 {
-<div>
+
     <span>Enter your bitcoin address to proceed</span>
     @Html.LabelFor(m => m.UserAddress);
     @Html.TextBoxFor(m => m.UserAddress,new { @class="form-control"});
 
     @Html.HiddenFor(m => m.ShoppingCartId);
     @Html.HiddenFor(m => m.UserId);
-    <button id="btn-continue" "submit" class="btn-group">Continue</button>
-</div>
+    <button id="btn-continue" type="submit" class="btn-group">Continue</button>
+
 }
 }

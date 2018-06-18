@@ -4,92 +4,84 @@
     ViewBag.Title = "Index";
 }
 
-<<<<<<< HEAD
 <h2 style="color:#7a7575;">Index</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create", new { id = 1 }, new { @style = "color:#7a7575;" })
 </p>
-<table class="table">
-    <tr>
-        <th style="color:#7a7575;">
-            @Html.DisplayNameFor(model => model.ImgURL)
-        </th>
-        <th style="color:#7a7575;">
-            @Html.DisplayNameFor(model => model.Quantity)
-        </th>
-        <th style="color:#7a7575;">
-
-<h2 style="color:#e2d3aa">Index</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create", new { id = 1 }, new { @style = "color:#e2d3aa;" })
-</p>
-<table class="table">
-    <tr>
-        <th style="color:#e2d3aa">
-            @Html.DisplayNameFor(model => model.ImgURL)
-        </th>
-        <th style="color:#e2d3aa">
-            @Html.DisplayNameFor(model => model.Quantity)
-        </th>
-        <th style="color:#e2d3aa">
-
-            @Html.DisplayNameFor(model => model.Price)
-        </th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
+<table class="table" id="product-table">
+    <thead>
         <tr>
-            <td style="max-width:500px">
-                <div class="col-md-4 text-center">
-                    <div class="thumbnail" style="max-width:500px;">
+            <th style="color:#7a7575;">
+                @Html.DisplayNameFor(model => model.ImgURL)
+            </th>
+            <th style="color:#7a7575;">
+                @Html.DisplayNameFor(model => model.Quantity)
+            </th>
+            <th style="color:#7a7575;">
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th></th>
         </tr>
-        <tr style="background-color:#e2d3aa">
-            <td style="max-width:300px">
-                <div class="col-md-4 text-center">
-                    <div class="thumbnail">
-
-                        <img class="img-responsive" src="@item.ImgURL">
-                        <div class="caption">
-                            <h3>
-                                @Html.DisplayFor(modelItem => item.Name)
-                            </h3>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td style="max-width:500px">
+                    <div class="col-md-4 text-center">
+                        <div class="thumbnail" style="max-width:500px;">
+                            <img class="img-responsive" src="@item.ImgURL">
+                            <div class="caption">
+                                <h3>
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </h3>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </td>
+                </td>
+                <td style="color:#7a7575;">
+                    <strong>
+                        @Html.DisplayFor(modelItem => item.Quantity) in stock
+                    </strong>
+                </td>
+                <td style="color:#7a7575;">
+                    <strong>
+                        @Html.DisplayFor(modelItem => item.Price)$
+                    </strong>
+                </td>
+                <td style="color:#7a7575;">
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @style = "color:#7a7575;", @class = "btn btn-default" })
+                    @Html.ActionLink("Details", "Details", new { id = item.Id }, new { @style = "color:#7a7575;", @class = "btn btn-default" })
+                    <button   id="btn-delete" product-id="@item.Id" style = "color:#7a7575" class = "btn btn-default" >Delete</button>
+                </td>
+            </tr>
+        }
+    </tbody>
 
-            <td style="color:#7a7575;">
-                <strong>
-                    @Html.DisplayFor(modelItem => item.Quantity) in stock
-                </strong>
-            </td>
-            <td style="color:#7a7575;">
-                <strong>
-                    @Html.DisplayFor(modelItem => item.Price)$
-                </strong>
-            </td>
-            <td style="color:#7a7575;">
-                @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @style = "color:#7a7575;", @class = "btn btn-default" })
-                @Html.ActionLink("Details", "Details", new { id = item.Id }, new { @style = "color:#7a7575;", @class = "btn btn-default" })
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @style = "color:#7a7575;", @class = "btn btn-default" })
-
-            <td style="color:white">
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td style="color:white">
-                @Html.DisplayFor(modelItem => item.Quantity)
-            </td>
-            <td style="color:white">
-                @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @style = "color:white;" }) |
-                @Html.ActionLink("Details", "Details", new { id = item.Id }, new { @style = "color:white;" }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @style = "color:white;" })
-
-            </td>
-        </tr>
-
-    }
 </table>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            var table = $("#product-table").DataTable();
+            $("#btn-delete").on("click", function () {
+                alert("The button is clicked");
+                var button = $(this);
+                bootbox.confirm("Are you sure you want to delete this product?", function (result) {
+                    if (result) {
+                        $.ajax({
+                            url: "/api/ProductsApi/" + button.attr("product-id"),
+                            method: "DELETE",
+                            success: function () {
+                                table.row(button.parent("tr")).remove().draw();
+                            }
+                        });
+                      }
+                    
+                });
+            });
+        });
+    </script>
+
+}

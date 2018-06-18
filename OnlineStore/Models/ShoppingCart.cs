@@ -7,6 +7,7 @@ using Microsoft.AspNet.Identity;
 
 namespace OnlineStore.Models
 {
+    [Serializable]
     public class ShoppingCart
     {
         //Whoose shoping cart it is
@@ -15,7 +16,7 @@ namespace OnlineStore.Models
         public int ID { get; set; }
         public String UserID { get; set; }
 
-        public List<Product.Product> ChoosedProducts { get; set; }
+        public virtual ICollection<Product.Product> ChoosedProducts { get; set; }
 
         public bool Paid { get; set; }
 

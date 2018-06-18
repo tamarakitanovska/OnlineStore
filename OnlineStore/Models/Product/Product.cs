@@ -6,6 +6,7 @@ using System.Web;
 
 namespace OnlineStore.Models.Product
 {
+    [Serializable]
     public class Product
     {
         [Key]
