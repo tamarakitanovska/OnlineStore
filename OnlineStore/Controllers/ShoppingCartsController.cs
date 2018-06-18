@@ -15,12 +15,13 @@ namespace OnlineStore.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
+        [Authorize(Roles ="Admin")]
         // GET: ShoppingCarts
         public ActionResult ViewCarts()
         {
             return View(db.ShoppingCarts.ToList());
         }
-
+        [Authorize]
         [HttpPost]
         public ActionResult PostProductToCart(int Id)
         {

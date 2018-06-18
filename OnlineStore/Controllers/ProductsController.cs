@@ -37,6 +37,7 @@ namespace OnlineStore.Controllers
             return View(product);
         }
 
+        [Authorize(Roles ="Admin")]
         // GET: Products/Create
         public ActionResult Create()
         {
@@ -60,6 +61,7 @@ namespace OnlineStore.Controllers
             return View(product);
         }
 
+        [Authorize(Roles ="Editor")]
         // GET: Products/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -92,6 +94,7 @@ namespace OnlineStore.Controllers
         }
 
         // GET: Products/Delete/5
+        [Authorize(Roles ="Admin")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
