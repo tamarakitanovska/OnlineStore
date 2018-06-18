@@ -21,13 +21,15 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Products", "Index", "Products")</li>                    
+                    <li>@Html.ActionLink("Products", "Index", "Products")</li>
+                    <li>@Html.ActionLink("My Cart", "Details", "ShoppingCarts")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                     @if(User.IsInRole("Admin"))
                     {
                     <li>@Html.ActionLink("Add Product", "Create", "Products")</li>
+                    <li>@Html.ActionLink("Add User to Roll","AddUserToRole","Account")</li>
                     }
-                    <li>@Html.ActionLink("My Cart", "Details", "ShoppingCarts")</li>
+                    
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>

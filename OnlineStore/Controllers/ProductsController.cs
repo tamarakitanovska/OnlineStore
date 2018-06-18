@@ -62,6 +62,7 @@ namespace OnlineStore.Controllers
         }
 
         [Authorize(Roles ="Editor")]
+        [Authorize(Roles = "Admin")]
         // GET: Products/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -110,6 +111,7 @@ namespace OnlineStore.Controllers
         }
 
         // POST: Products/Delete/5
+        [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)

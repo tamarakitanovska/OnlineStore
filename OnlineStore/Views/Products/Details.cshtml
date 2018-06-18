@@ -10,7 +10,8 @@
     <h4>Product</h4>
     <hr />
 </div>
-@Html.BeginForm("PostProductToCart", "ShoppingCarts", new { Id = Model.Id }){
+@using (Html.BeginForm("PostProductToCart", "ShoppingCarts", new { Id = Model.Id }))
+{ 
 <table>
     <tr>
         <td>

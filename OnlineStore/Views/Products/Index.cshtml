@@ -6,9 +6,7 @@
 
 <h2 style="color:#7a7575;">Index</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create", new { id = 1 }, new { @style = "color:#7a7575;" })
-</p>
+    
 <table class="table" id="product-table">
     <thead>
         <tr>
@@ -51,9 +49,16 @@
                     </strong>
                 </td>
                 <td style="color:#7a7575;">
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @style = "color:#7a7575;", @class = "btn btn-default" })
                     @Html.ActionLink("Details", "Details", new { id = item.Id }, new { @style = "color:#7a7575;", @class = "btn btn-default" })
-                    <button   id="btn-delete" product-id="@item.Id" style = "color:#7a7575" class = "btn btn-default" >Delete</button>
+                    @if (!User.IsInRole("User"))
+   {
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @style = "color:#7a7575;", @class = "btn btn-default" })
+}
+
+                    @if (User.IsInRole("Admin"))
+    {
+                <button id="btn-delete" product-id="@item.Id" style="color:#7a7575" class="btn btn-default">Delete</button>
+}
                 </td>
             </tr>
         }
@@ -66,7 +71,7 @@
         $(document).ready(function () {
             var table = $("#product-table").DataTable();
             $("#btn-delete").on("click", function () {
-                alert("The button is clicked");
+               
                 var button = $(this);
                 bootbox.confirm("Are you sure you want to delete this product?", function (result) {
                     if (result) {

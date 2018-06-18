@@ -20,6 +20,8 @@ namespace OnlineStore.Models
 
         public bool Paid { get; set; }
 
+
+
         public ShoppingCart()
         {
             Paid = false;
@@ -35,6 +37,17 @@ namespace OnlineStore.Models
                 sum += item.Price;
             }
             return sum;
+        }
+
+        public int umberOfSameItems(int id)
+        {
+            int n = 0;
+            foreach (var item in ChoosedProducts)
+            {
+                if (item.Id == id)
+                    n++;
+            }
+            return n;
         }
     }
 }

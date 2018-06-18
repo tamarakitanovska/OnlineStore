@@ -40,7 +40,22 @@ namespace OnlineStore.Controllers
             db.SaveChanges();
             return RedirectToAction("Details", "Products", new { Id = Id });
         }
+
        
+
+        
+        public ActionResult RemoveFromCart(int Id)
+        {
+            String UserId = db.Users.ToList().Find(x => x.UserName == HttpContext.User.Identity.Name).Id;
+            ShoppingCart shoppingCart = db.ShoppingCarts.FirstOrDefault(x => x.UserID == UserId);
+
+
+            shoppingCart.ChoosedProducts.Remove(db.Products.Find(Id));
+
+            db.SaveChanges();
+            return RedirectToAction("Details", "ShoppingCarts", new { Id = shoppingCart.ID });
+        }
+        [Authorize]
         // GET: ShoppingCarts/Details/5
         public ActionResult Details()
         {

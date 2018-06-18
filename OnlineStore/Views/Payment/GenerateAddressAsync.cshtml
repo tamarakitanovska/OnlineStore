@@ -12,19 +12,18 @@
 </div>
 
 <div class="form-group">
-    <span>The ammount for paying is @Model.ammountToBePaidBitcoin </span>
+    <span>The ammount for paying is @Model.ammountToBePaidBitcoin bitcoin</span>
     <br />
-    <span></span>
-    @Html.DisplayNameFor(m => m.AddressForReceiving)
+    <span>Sent bitcoin to the address BELOW</span>
+       
     @Html.DisplayTextFor(m=>m.AddressForReceiving)
     <br />
     <span>After 3 block confirmations (aproximately 30 minutes) your order will be shipped</span>
 </div>
 
 
-<div class="form-control" >
+
     <span>You can check the status of your transaction here</span>
     <br />
     
-    @Html.ActionLink("StatusAsync", "StatusAsync", new { address=Model.AddressForReceiving})
-</div>
+    @Html.ActionLink("Status", "StatusAsync", new { address=Model.AddressForReceiving},new {@class="btn btn-default" })

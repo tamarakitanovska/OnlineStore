@@ -34,7 +34,8 @@ namespace OnlineStore.Controllers
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(
                 new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-            clientSimpleApi.BaseAddress = new Uri(BaseWebAddressSimpleApi);
+            if(clientSimpleApi.BaseAddress==null)
+                clientSimpleApi.BaseAddress = new Uri(BaseWebAddressSimpleApi);
             clientSimpleApi.DefaultRequestHeaders.Accept.Clear();
             clientSimpleApi.DefaultRequestHeaders.Accept.Add(
                 new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));

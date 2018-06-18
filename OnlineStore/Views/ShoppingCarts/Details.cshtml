@@ -16,7 +16,6 @@
                     @Html.DisplayNameFor(model => model.product.ImgURL)
                 </th>
                 <th style="color:#7a7575;">
-                    @Html.DisplayNameFor(model => model.product.Quantity)
                 </th>
                 <th style="color:#7a7575;">
                     @Html.DisplayNameFor(model => model.product.Price)
@@ -42,7 +41,7 @@
                     </td>
                     <td style="color:#7a7575;">
                         <strong>
-                            @Html.DisplayFor(modelItem => item.Quantity) in stock
+                              
                         </strong>
                     </td>
                     <td style="color:#7a7575;">
@@ -50,19 +49,18 @@
                             @Html.DisplayFor(modelItem => item.Price)$
                         </strong>
                     </td>
-                    <td style="color:#7a7575;">
-                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @style = "color:#7a7575;", @class = "btn btn-default" })
-                        @Html.ActionLink("Details", "Details", new { id = item.Id }, new { @style = "color:#7a7575;", @class = "btn btn-default" })
-                        <button id="btn-delete" product-id="@item.Id" style="color:#7a7575" class="btn btn-default">Delete</button>
+                    
+                    <td>
+                        @Ajax.ActionLink("Remove", "RemoveFromCart","ShoppingCarts", new { id = item.Id }, new AjaxOptions { HttpMethod = "POST" })
                     </td>
                 </tr>
             }
         </tbody>
 
     </table>
-    @Html.BeginForm("Pay", "Payment", new { ID = @Model.ShoppingCart.ID })
+    @using (Html.BeginForm("Pay", "Payment", new { ID = @Model.ShoppingCart.ID }))
     {
-    <button type="submit" class="btn-primary" style="color:white">Checkout</button>
+    <button type="submit" class="btn-primary" style="color:white">Checkout @Model.ShoppingCart.toBePaid()$</button>
     }
 
     @section scripts{
